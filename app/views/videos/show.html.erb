@@ -1,0 +1,34 @@
+<% title "Video" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @video.name %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @video.description %>
+</p>
+<p>
+    Trying to show: <%= @video.clip.url %>
+
+    <%= javascript_include_tag 'swfobject' %>
+    <div id="player">
+    You need to have <%= link_to 'Flash Player', 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash' %> installed to display this video
+  </div>
+
+  <script type="text/javascript">
+    var so = new SWFObject('/flash/player.swf', 'mpl', '480', '360', '8');
+    so.addParam('allowscriptaccess', 'always');
+    so.addParam('allowfullscreen', 'true');
+    so.addVariable('height', '360');
+    so.addVariable('width', '480');
+    so.addVariable('file', '<%= @video.clip.url %>');
+    so.write('player');
+  </script>
+
+</p>
+<p>
+  <%= link_to "Edit", edit_video_path(@video) %> |
+  <%= link_to "Destroy", @video, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", videos_path %>
+</p>
