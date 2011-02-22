@@ -1,15 +1,29 @@
 class Video < ActiveRecord::Base
   belongs_to :user
   attr_accessible :name, :description, :clip
-  has_attached_file :clip
 
+  # order reverse-chronologically, by default
+  default_scope :order => 'videos.created_at DESC'
+
+  validates :description, :presence => true, :length => { :maximum => 140 }
+  validates :user_id, :presence => true
+
+  # make Paperclip happy
+  # TODO: add content-type and filename extension check
+  has_attached_file :clip
   validates_attachment_presence :clip
 
+  # FSM: might come in handy at some point
   acts_as_state_machine :initial => :pending
   state :pending
+  state :uploading
   state :converting
   state :converted, :enter => :set_new_filename
   state :error
+
+  event :upload do
+    transitions :from => :init, :to => :uploading
+  end
 
   event :convert do
     transitions :from => :pending, :to => :converting
@@ -31,11 +45,11 @@ class Video < ActiveRecord::Base
     if success && $?.exitstatus == 0
       self.converted!
     else
-      self.failure!
+      self.failed!
     end
   end
 
-  protected
+  private
 
   def get_max_duration
     15 #seconds
@@ -43,7 +57,7 @@ class Video < ActiveRecord::Base
 
   def convert_command
     flv = File.join(File.dirname(clip.path), "#{id}.flv")
-    max_t = self.get_max_duration
+    max_t = get_max_duration
     File.open(flv, 'w')
 
     command = <<-end_command

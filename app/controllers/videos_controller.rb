@@ -2,33 +2,43 @@ class VideosController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @videos = Video.all
+    @videos = current_user.video_feed
   end
 
   def show
-    @video = Video.find(params[:id])
+    @video = current_user.video_feed.find(params[:id])
   end
 
   def new
     @video = Video.new
   end
 
+#  def create
+#    @video = Video.new(params[:video])
+#    if @video.save
+#      @video.convert
+#      redirect_to @video, :notice => "Successfully created video."
+#    else
+#      render :action => 'new'
+#    end
+#  end
+
   def create
-    @video = Video.new(params[:video])
+    @video = current_user.videos.build(params[:video])
     if @video.save
       @video.convert
-      redirect_to @video, :notice => "Successfully created video."
+      redirect_to @video, :notice => "Successfully uploaded video."
     else
       render :action => 'new'
     end
   end
 
   def edit
-    @video = Video.find(params[:id])
+    @video = current_user.videos.find(params[:id])
   end
 
   def update
-    @video = Video.find(params[:id])
+    @video = current_user.videos.find(params[:id])
     if @video.update_attributes(params[:video])
       redirect_to @video, :notice  => "Successfully updated video."
     else
@@ -37,7 +47,7 @@ class VideosController < ApplicationController
   end
 
   def destroy
-    @video = Video.find(params[:id])
+    @video = current_user.videos.find(params[:id])
     @video.destroy
     redirect_to videos_url, :notice => "Successfully destroyed video."
   end

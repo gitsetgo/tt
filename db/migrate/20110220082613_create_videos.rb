@@ -6,8 +6,10 @@ class CreateVideos < ActiveRecord::Migration
       t.integer :source_file_size
       t.string :name
       t.text :description
+      t.integer :user_id
       t.timestamps
     end
+      add_index :videos, :user_id
   end
 
   def self.down

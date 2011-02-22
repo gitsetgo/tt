@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20110220083550) do
     t.integer  "source_file_size"
     t.string   "name"
     t.text     "description"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "clip_file_name"
@@ -48,5 +49,7 @@ ActiveRecord::Schema.define(:version => 20110220083550) do
     t.integer  "clip_file_size"
     t.datetime "clip_updated_at"
   end
+
+  add_index "videos", ["user_id"], :name => "index_videos_on_user_id"
 
 end

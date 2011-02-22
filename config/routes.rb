@@ -1,4 +1,10 @@
 Tt::Application.routes.draw do
+  get "user/show"
+
+  get "pages/home"
+
+  get "pages/about"
+
   get "videos/index"
 
   devise_for :users
