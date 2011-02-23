@@ -1,4 +1,9 @@
 <% title "Video" %>
+<h3>
+  <%= image_tag @user.avatar.url(:thumb) %>
+  <%= current_user.name %>
+</h3>
+
 <p>
   <strong>Name:</strong>
   <%= @video.name %>

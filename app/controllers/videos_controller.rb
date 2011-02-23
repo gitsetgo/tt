@@ -2,11 +2,13 @@ class VideosController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @videos = current_user.video_feed
+    @user = current_user
+    @videos ||= current_user.video_feed
   end
 
   def show
-    @video = current_user.video_feed.find(params[:id])
+    @user = current_user
+    @video ||= current_user.video_feed.find(params[:id])
   end
 
   def new

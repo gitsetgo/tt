@@ -8,6 +8,9 @@ gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'paperclip', '~>2.3'
 gem 'devise', '1.1.rc0'
+gem "paperclip-extended_validations",
+  :git => "git://github.com/meskyanichi/paperclip-extended_validations.git",
+  :require => "extended_validations"
 
 # Use unicorn as the web server
 # gem 'unicorn'

@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/meskyanichi/paperclip-extended_validations.git
+  revision: f8d810a3125a5cf055056faedc536e9f5a75a4ea
+  specs:
+    paperclip-extended_validations (0.1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -85,5 +91,6 @@ DEPENDENCIES
   mocha
   nifty-generators
   paperclip (~> 2.3)
+  paperclip-extended_validations!
   rails (= 3.0.3)
   sqlite3-ruby
